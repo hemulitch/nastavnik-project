@@ -22,9 +22,3 @@ Open docs: `http://127.0.0.1:8001/docs`
   ]
 }
 ```
-
-```bash
-$env:BKT_PARAMS_JSON = "\path\to\params.json" 
-python -m uvicorn newapp.app.main:app --reload --port 8001
-
-```
