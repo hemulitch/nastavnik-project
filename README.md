@@ -3,8 +3,10 @@
 ### Run
 
 ```
-pip install -r newapp/requirements.txt
-python -m uvicorn newapp.app.main:app --reload --port 8001
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload --port 8001
 ```
 
 Open docs: `http://127.0.0.1:8001/docs`
@@ -21,17 +23,8 @@ Open docs: `http://127.0.0.1:8001/docs`
 }
 ```
 
-### Configure trained pyBKT model params
-
-- Provide a JSON file via env var `BKT_PARAMS_JSON`:
-
-```json
-{
-  "math_004": {"transition": 0.15, "guess": 0.20, "slip": 0.10, "prior": 0.10}
-}
-```
-
 ```bash
 $env:BKT_PARAMS_JSON = "\path\to\params.json" 
 python -m uvicorn newapp.app.main:app --reload --port 8001
+
 ```
