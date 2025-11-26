@@ -1,6 +1,6 @@
-from dataclasses import dataclass
-from typing import Any, Optional
 import os
+from dataclasses import dataclass
+from .models import PredictRequest
 
 def clamp(x: float, low: float = 0.0, high: float = 1.0) -> float:
     """
@@ -16,7 +16,7 @@ class BKTParams:
     prior: float = 0.10        # L0 default
 
 
-def predict_action_success(request: dict[str, Any]) -> dict[str, Any]:
+def predict_action_success(request:PredictRequest) -> dict:
     """
     Оценка вероятности успешного выполнения учебного действия
     """
@@ -56,33 +56,3 @@ def predict_action_success(request: dict[str, Any]) -> dict[str, Any]:
         "action_index": action_index,
         "success_prediction": round(success_prob, 3),
     }
-
-if __name__ == "__main__":
-    example_request = {
-        "theme": {
-            "theme_id": "math_004",
-            "mastery_coefficient": 0.76,
-            "time_spent": 100,
-        },
-        "related_themes": [
-            {
-                "theme_id": "math_003",
-                "mastery_coefficient": 0.85,
-                "time_spent": 4000,
-            },
-            {
-                "theme_id": "math_002",
-                "mastery_coefficient": 0.72,
-                "time_spent": 3600,
-            },
-        ],
-        "lesson_index": 3,
-        "lesson_mastery": 0.75,
-        "total_lessons": 10,
-        "action_index": 5,
-        "action_type": "test",
-        "action_difficulty": 0.7,
-    }
-
-    result = predict_action_success(example_request)
-    print(result)
