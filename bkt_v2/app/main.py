@@ -6,5 +6,5 @@ app = FastAPI(title="BKT Predictor")
 
 @app.post("/predict", response_model=PredictResponse)
 def predict(request: PredictRequest) -> PredictResponse:
-    result = predict_action_success(request.model_dump())
+    result = predict_action_success(request)
     return PredictResponse(**result)
