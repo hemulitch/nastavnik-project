@@ -16,7 +16,7 @@ class BKTParams:
     prior: float = 0.10        # L0 default
 
 
-def predict_action_success(request:PredictRequest) -> dict:
+def predict_action_success(request: PredictRequest) -> dict:
     """
     Оценка вероятности успешного выполнения учебного действия
     """
@@ -27,18 +27,17 @@ def predict_action_success(request:PredictRequest) -> dict:
         prior=float(os.getenv("BKT_PRIOR", 0.10)),
     )
 
-    theme = request.get("theme", {})
-    theme_id = theme.get("theme_id", "unknown_theme")
-    lesson_index = request.get("lesson_index", 1)
-    action_index = request.get("action_index", 1)
+    theme_id = request.theme.theme_id,
+    lesson_index = request.lesson_index
+    action_index = request.action_index
 
     # Берём lesson_mastery как prior
-    lesson_mastery_raw = request.get("lesson_mastery")
+    lesson_mastery_raw = request.lesson_mastery
     if lesson_mastery_raw is not None:
         L_prior = clamp(float(lesson_mastery_raw))
     else:
         # если вдруг мастерства для урока нет, берем мастерство для темы
-        theme_mastery_raw = theme.get("mastery_coefficient")
+        theme_mastery_raw = theme.mastery_coefficient
         if theme_mastery_raw is not None:
             L_prior = clamp(float(theme_mastery_raw))
         else:
