@@ -108,7 +108,6 @@ def effective_params_for_action(action, base: BKTParams) -> BKTParams:
     slip  = clamp(base.slip  * (1.0 + SCALE * diff_centered))
 
     return BKTParams(
-        transition=base.transition,
         guess=guess,
         slip=slip,
         prior=base.prior,
