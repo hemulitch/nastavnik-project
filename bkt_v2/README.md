@@ -8,8 +8,19 @@ source venv/bin/activate
 pip install -r requirements.txt
 python -m uvicorn app.main:app --reload --port 8001
 ```
-
 Open docs: `http://127.0.0.1:8001/docs`
+
+### Run simulation
+From the project root (with API already running):
+```
+python scripts/simulate_bkt.py \
+  --base-url http://127.0.0.1:8001 \
+  --iter-limit 100 \
+  --min-actions-per-lesson 8 \
+  --seed 1 \
+  --verbose \
+  --log-jsonl logs/run.jsonl
+```
 
 ### Request
 
