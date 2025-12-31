@@ -1,0 +1,44 @@
+services:
+  api:
+    build: .
+    image: bkt:local
+    ports:
+      - "8001:8001"
+    environment:
+      BKT_T: "0.05"
+      BKT_G: "0.20"
+      BKT_S: "0.10"
+      BKT_PRIOR: "0.10"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=2).read()",
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      start_period: 2s
+
+  smoke:
+    build: .
+    depends_on:
+      api:
+        condition: service_healthy
+    command:
+      [
+        "python",
+        "scripts/simulate_bkt.py",
+        "--base-url",
+        "http://api:8001",
+        "--iter-limit",
+        "100",
+        "--min-actions-per-lesson",
+        "8",
+        "--verbose",
+      ]
+    volumes:
+      - ./logs:/app/logs
+    profiles: ["test"]

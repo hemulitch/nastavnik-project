@@ -128,6 +128,10 @@ def main() -> int:
     p.add_argument("--min-actions-per-lesson", type=int, default=8)
 
     args = p.parse_args()
+    if not args.log_jsonl:
+        os.makedirs("logs", exist_ok=True)
+        ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        args.log_jsonl = f"logs/run_{ts}.jsonl"
 
     rng = random.Random(args.seed)
     wait_for_server(args.base_url)
